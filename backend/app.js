@@ -5,6 +5,19 @@ const Post = require("./model/post");
 
 const app = express();
 
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(
+    "mongodb+srv://duckbuddyy:1DKy3vZmrjBPkSi3@cluster0.pxfvc.mongodb.net/node-angular?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((err) => {
+    console.log("Connection failed");
+  });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -20,36 +33,34 @@ app.use((req, res, next) => {
   );
   next();
 });
-//1DKy3vZmrjBPkSi3
+
 app.post("/api/posts", (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
   });
-  console.log(post);
-  res.status(201).json({
-    message: "Post added successfully",
+  post.save().then((createdPost) => {
+    res.status(201).json({
+      message: "Post added successfully",
+      postId: createdPost._id,
+    });
   });
 });
 
 app.get("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "adasd232",
-      title: "First server side post",
-      content: "This is server",
-    },
-    {
-      id: "adasd2",
-      title: "Second server side post",
-      content: "This is server",
-    },
-    { id: "3323", title: "Third server side post", content: "Zınk" },
-  ];
+  Post.find()
+    .then((documents) => {
+      res.status(200).json({
+        message: "Post fetched successfully!",
+        posts: documents,
+      });
+    })
+    .catch();
+});
 
-  res.status(200).json({
-    message: "Post fetched successfully!",
-    posts: posts,
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then((result) => {
+    res.status(200).json({ message: "Post deleted!" });
   });
 });
 
