@@ -1,6 +1,6 @@
+const multer = require("multer");
 const express = require("express");
 const Post = require("../model/post");
-const multer = require("multer");
 
 const router = express.Router();
 
@@ -17,39 +17,59 @@ const storage = multer.diskStorage({
     if (isValid) {
       error = null;
     }
-    cb(error, "backend/images");
+    cb(error, "backend/image");
   },
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(" ").join("-");
     const extension = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + "-" + Date.now + "." + extension);
+    cb(null, name + "." + Date.now() + "." + extension);
   },
 });
 
-router.patch("/:id", (req, res, next) => {
-  const post = new Post({
-    _id: req.params.id,
-    title: req.body.title,
-    content: req.body.content,
-  });
-  Post.updateOne({ _id: req.params.id }, post).then((result) => {
-    console.log(post);
-    res.status(200).json({ message: "Update successful" });
-  });
-});
-
-router.post("", multer(storage).single("image"), (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  post.save().then((createdPost) => {
-    res.status(201).json({
-      message: "Post added successfully",
-      postId: createdPost._id,
+router.patch(
+  "/:id",
+  multer({ storage: storage }).single("image"),
+  (req, res, next) => {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      imagePath = url + "/image/" + req.file.filename;
+    }
+    const post = new Post({
+      _id: req.params.id,
+      title: req.body.title,
+      content: req.body.content,
+      imagePath: imagePath,
     });
-  });
-});
+    Post.updateOne({ _id: req.params.id }, post).then((result) => {
+      res.status(200).json({ message: "Update successful" });
+    });
+  }
+);
+
+router.post(
+  "",
+  multer({ storage: storage }).single("image"),
+  (req, res, next) => {
+    const url = req.protocol + "://" + req.get("host");
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      imagePath: url + "/image/" + req.file.filename,
+    });
+    post.save().then((createdPost) => {
+      res.status(201).json({
+        message: "Post added successfully",
+        post: {
+          id: createdPost._id,
+          title: createdPost.title,
+          content: createdPost.content,
+          imagePath: createdPost.imagePath,
+        },
+      });
+    });
+  }
+);
 
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then((post) => {

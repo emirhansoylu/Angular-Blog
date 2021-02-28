@@ -11,12 +11,12 @@ import { mimeType } from './mime-type.validator';
   styleUrls: ['./post-create.component.css'],
 })
 export class PostCreateComponent implements OnInit {
-  private postId: String = '';
+  private postId: string = '';
   private mode = 'create';
 
-  post: Post = { id: '', title: '', content: '' };
+  post: Post = { id: '', title: '', content: '', imagePath: '' };
 
-  imagePath: String = '';
+  imagePath: string = '';
   isLoading = false;
   form: FormGroup;
 
@@ -45,16 +45,18 @@ export class PostCreateComponent implements OnInit {
             id: postData._id,
             title: postData.title,
             content: postData.content,
+            imagePath: postData.imagePath,
           };
           this.form.setValue({
             title: this.post.title,
             content: this.post.content,
+            image: this.post.imagePath,
           });
         });
       } else {
         this.mode = 'create';
         this.postId = '';
-        this.post = { id: '', title: '', content: '' };
+        this.post = { id: '', title: '', content: '', imagePath: '' };
       }
     });
   }
@@ -65,13 +67,15 @@ export class PostCreateComponent implements OnInit {
       if (this.mode === 'create') {
         this.postService.addPost(
           this.form.value.title,
-          this.form.value.content
+          this.form.value.content,
+          this.form.value.image
         );
       } else {
         this.postService.updatePost(
           this.postId,
           this.form.value.title,
-          this.form.value.content
+          this.form.value.content,
+          this.form.value.image,
         );
       }
       this.form.reset();
@@ -84,7 +88,7 @@ export class PostCreateComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imagePath = reader.result as String;
+        this.imagePath = reader.result as string;
       };
       this.form.patchValue({ image: file });
       this.form.controls.image.updateValueAndValidity();
