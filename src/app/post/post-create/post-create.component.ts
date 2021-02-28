@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-post-create',
@@ -18,8 +15,9 @@ export class PostCreateComponent implements OnInit {
   private mode = 'create';
 
   post: Post = { id: '', title: '', content: '' };
+
+  imagePath: String = '';
   isLoading = false;
-  imagePath: String = "";
   form: FormGroup;
 
   constructor(public postService: PostService, public route: ActivatedRoute) {
@@ -28,7 +26,10 @@ export class PostCreateComponent implements OnInit {
         validators: [Validators.required, Validators.minLength(3)],
       }),
       content: new FormControl(null, { validators: [Validators.required] }),
-      image: new FormControl(null, { validators: [Validators.required] }),
+      image: new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType],
+      }),
     });
   }
 
@@ -88,7 +89,6 @@ export class PostCreateComponent implements OnInit {
       this.form.patchValue({ image: file });
       this.form.controls.image.updateValueAndValidity();
       reader.readAsDataURL(file);
-
     }
   }
 }
