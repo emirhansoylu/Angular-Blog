@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { LoginComponent } from './post/auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +26,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     HeaderComponent,
     PostCreateComponent,
     PostListComponent,
+    LoginComponent,
   ],
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
