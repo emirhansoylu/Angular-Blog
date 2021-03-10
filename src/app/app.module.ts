@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { LoginComponent } from './post/auth/login/login.component';
+import { SignupComponent } from './post/auth/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoginComponent } from './post/auth/login/login.component';
     PostCreateComponent,
     PostListComponent,
     LoginComponent,
+    SignupComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css'],
 })
-export class LoginComponent {
+export class SignupComponent {
   isLoading = false;
-  email:string = "";
-  password:string = "";
-  onLogin(form: NgForm){
+  email: string = '';
+  password: string = '';
+
+  onSignup(form: NgForm) {
     console.log(form.value);
   }
 }
