@@ -33,6 +33,7 @@ export class AuthService {
       .subscribe((response) => {
         console.log(response);
       });
+    this.router.navigate(['/']);
   }
 
   login(email: string, password: string) {
