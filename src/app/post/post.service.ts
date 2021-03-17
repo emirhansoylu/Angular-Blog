@@ -30,6 +30,7 @@ export class PostService {
                 title: post.title,
                 content: post.content,
                 imagePath: post.imagePath,
+                creator: post.creator,
               };
             }),
             maxPosts: postData.maxPosts,
@@ -97,8 +98,6 @@ export class PostService {
   }
 
   deletePost(postId: string) {
-    return this.httpClient
-      .delete('http://localhost:3000/api/posts/' + postId)
-
+    return this.httpClient.delete('http://localhost:3000/api/posts/' + postId);
   }
 }
