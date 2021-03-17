@@ -14,7 +14,7 @@ export class PostCreateComponent implements OnInit {
   private postId: string = '';
   private mode = 'create';
 
-  post: Post = { id: '', title: '', content: '', imagePath: '' };
+  post: Post = { id: '', title: '', content: '', imagePath: '', creator: '' };
 
   imagePath: string = '';
   isLoading = false;
@@ -46,6 +46,7 @@ export class PostCreateComponent implements OnInit {
             title: postData.title,
             content: postData.content,
             imagePath: postData.imagePath,
+            creator: postData.creator,
           };
           this.form.setValue({
             title: this.post.title,
@@ -56,7 +57,13 @@ export class PostCreateComponent implements OnInit {
       } else {
         this.mode = 'create';
         this.postId = '';
-        this.post = { id: '', title: '', content: '', imagePath: '' };
+        this.post = {
+          id: '',
+          title: '',
+          content: '',
+          imagePath: '',
+          creator: '',
+        };
       }
     });
   }
@@ -75,7 +82,7 @@ export class PostCreateComponent implements OnInit {
           this.postId,
           this.form.value.title,
           this.form.value.content,
-          this.form.value.image,
+          this.form.value.image
         );
       }
       this.form.reset();
