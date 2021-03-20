@@ -10,7 +10,9 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(
-    "mongodb+srv://duckbuddyy:1DKy3vZmrjBPkSi3@cluster0.pxfvc.mongodb.net/node-angular"
+    "mongodb+srv://duckbuddyy:" +
+      process.env.MONGO_ATLAS_PW +
+      "@cluster0.pxfvc.mongodb.net/node-angular"
   )
   .then(() => {
     console.log("Connected to database");
