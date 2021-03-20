@@ -18,10 +18,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import { ErrorInterceptor } from './error-interceptor';
     PostListComponent,
     LoginComponent,
     SignupComponent,
+    ErrorComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -47,6 +51,7 @@ import { ErrorInterceptor } from './error-interceptor';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatDialogModule,
   ],
   providers: [
     {
@@ -61,5 +66,6 @@ import { ErrorInterceptor } from './error-interceptor';
     },
   ],
   bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent],
 })
 export class AppModule {}
