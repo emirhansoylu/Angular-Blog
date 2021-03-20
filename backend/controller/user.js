@@ -14,7 +14,6 @@ exports.userCreate = (req, res, next) => {
         res.status(201).json({
           message: "User created",
           result: result,
-          userId: fetchedUser._id,
         });
       })
       .catch((err) => {
